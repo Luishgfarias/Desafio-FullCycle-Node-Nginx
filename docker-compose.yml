@@ -1,0 +1,44 @@
+services:
+  node-express:
+    build:
+        context: ./node
+        dockerfile: dockerfile
+    image: luishgfarias/express:latest
+    container_name: express
+    entrypoint: dockerize -wait tcp://mysql:3306 -timeout 20s npm start
+    tty: true
+    volumes:
+      - ./node/src:/usr/src/app/src
+      - ./node/package.json:/usr/src/app/package.json
+    networks:
+      - express-mysql
+    depends_on:
+      - db-mysql
+
+  db-mysql:
+    image: mysql:5.7
+    container_name: mysql
+    restart: always
+    tty: true
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=testdb
+      - MYSQL_ROOT_PASSWORD=root
+    networks:
+      - express-mysql
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: dockerfile
+    container_name: nginx
+    ports:
+      - "8080:80"
+    networks:
+      - express-mysql
+    depends_on:
+      - node-express
+networks:
+  express-mysql:
+    driver: bridge

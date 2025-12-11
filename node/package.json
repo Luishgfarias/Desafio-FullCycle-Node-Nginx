@@ -1,0 +1,16 @@
+{
+  "name": "teste",
+  "version": "1.0.0",
+  "description": "node teste",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo eaeeeee",
+    "start": "node src/index.js"
+  },
+  "author": "me",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.2.1",
+    "mysql": "^2.18.1"
+  }
+}
