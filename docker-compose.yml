@@ -8,8 +8,8 @@ services:
     entrypoint: dockerize -wait tcp://mysql:3306 -timeout 20s npm start
     tty: true
     volumes:
-      - ./node/src:/usr/src/app/src
-      - ./node/package.json:/usr/src/app/package.json
+      - ./node:/usr/src/app
+      - /usr/src/app/node_modules
     networks:
       - express-mysql
     depends_on:
